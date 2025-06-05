@@ -7,6 +7,7 @@ This document outlines the development plan and roadmap for the RedRust project,
 - **Feature Parity with rrmcpy**: Implement all core functionalities and MCP tools present in `rrmcpy`.
 - **Rust Idioms**: Leverage Rust's strengths for safety, performance, and concurrency.
 - **Keep It Simple**: Adhere to a clear, modular, and maintainable architecture.
+- **Utilize Official MCP Rust SDK**: Leverage `modelcontextprotocol/rust-sdk` ([https://github.com/modelcontextprotocol/rust-sdk](https://github.com/modelcontextprotocol/rust-sdk)) for core MCP functionality.
 - **Testability**: Design components for easy unit and integration testing.
 - **Comprehensive Documentation**: Provide clear setup, usage, and development guides.
 
@@ -15,21 +16,23 @@ This document outlines the development plan and roadmap for the RedRust project,
 **Phase 1: Foundation & Core Connectivity (Target: v0.1.0)**
 
 *   **Task 1.1**: Set up Rust project structure (`cargo new RedRust --lib`).
-*   **Task 1.2**: Research and select Rust crates for:
-    *   HTTP client (e.g., `reqwest`)
-    *   JSON parsing (e.g., `serde`, `serde_json`)
-    *   MCP server framework (if available, or plan for custom implementation)
-    *   Logging (e.g., `log`, `env_logger` or `tracing`)
+*   **Task 1.2 (Revised)**: Integrate `modelcontextprotocol/rust-sdk` and supporting crates:
+    *   Add `rmcp` (with `server` feature) and `rmcp-macros` from the SDK to `Cargo.toml`.
+    *   Confirm and add necessary dependencies like `tokio` and `serde` (as required by the SDK).
+    *   Select and add a suitable logging crate (e.g., `tracing` or `env_logger`).
+    *   Select and add an HTTP client (e.g., `reqwest`) for direct Redmine API calls (distinct from MCP communication).
+    *   Ensure JSON parsing capabilities (e.g., via `serde`, `serde_json`) for Redmine API data.
+    *   Review SDK examples for server setup and tool implementation patterns.
 *   **Task 1.3**: Implement Redmine API client basics:
     *   Configuration management (environment variables for URL & API key).
-    *   Basic GET request functionality to Redmine.
+    *   Basic GET request functionality to Redmine (using the chosen HTTP client).
     *   Error handling for API communication.
-*   **Task 1.4**: Implement core MCP server scaffolding:
-    *   Basic request handling.
-    *   Tool registration mechanism.
-*   **Task 1.5**: Implement first Redmine MCP tool: `redmine-health-check`.
+*   **Task 1.4 (Revised)**: Implement core MCP server using `modelcontextprotocol/rust-sdk`:
+    *   Structure the RedRust server based on the SDK's server examples.
+    *   Utilize the SDK's built-in mechanisms for request handling, tool registration, and dispatch.
+*   **Task 1.5 (Revised)**: Implement first Redmine MCP tool: `redmine-health-check` (using `rmcp-macros`).
 *   **Task 1.6**: Basic unit tests for API client and health check tool.
-*   **Task 1.7**: Initial `README.md` with project goals, setup, and basic usage.
+*   **Task 1.7 (Revised)**: Initial `README.md` with project goals, setup (including SDK usage), and basic usage.
 
 **Phase 2: Project & Issue Management Tools (Target: v0.2.0)**
 
